@@ -1,0 +1,73 @@
+Python
+
+
+1 .Download  and install python from 
+
+https://www.python.org/downloads/
+
+2 dwnload and install pytharm cmmuntity edtition 
+
+https://wwwjetbrains.com/pycharm/download/#section for windwos
+
+
+print statements in python :
+
+************************
+
+print("Hello Python")
+print('How r u')
+print("Lets's go for ceinema")
+print('he sais "this is an execl"')
+print('he sais,"let'\'s go for cinema"')
+
+
+Variables:
+
+Variable is a name given to a memory location 
+and it is used to store values  In pythn it is not necessary
+to define the "datatype" of the variables.Depending n the data
+storeed pythn automatically assigns the data type
+
+
+Arithmetic operatins
+*******************
++
+-
+/
+*
+% - Reminder
+** exponent
+
+comparison Operators
+
+< Less than
+> Greater than
+<= Lessthan r equal to
+>= Greater than or equal to 
+== Equal to
+!= Not equal to
+
+Logical Operators
+***************
+and (conjunction)
+or (Disjunction)
+not (Negation)
+
+***************************************
+
+
+print(10+5)
+print("HeLLo " + "python")
+print("hi"+"5")
+print("hi"+str(5))
+print(int("8")+5)
+print("hi",5)
+*********************************
+prgr
+
+a = 10
+b = 20
+c = 5
+if a < b and a < c:
+   print("a is the smaest")
+e

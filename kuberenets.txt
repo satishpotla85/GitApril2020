@@ -1,0 +1,432 @@
+ Create replicas set file which creates a httpd conatiner in a pod called httpd-pod.
+
+It should create 3 replicas of this pod and this 3 replicas should be mainted by replica set 
+
+satish-httpd-rs
+
+
+Vi repica-set2
+
+
+---
+apiVersion:
+
+metadata:
+ name: httpd-rs
+ lables:
+  author: satish
+  type: frontend
+spec:
+ repicas: 3
+ selector:
+  matchlabels:
+   type:frontend
+tempate:
+ metadata
+  name: httpd-pd
+  labels:
+spec:
+ containers: 
+  - name: hhttpd-
+
+
+
+
+**************************************
+
+
+
+2. To create the replicaset from the above file
+
+kubectl create -f replica-set.yml
+
+3 To see the list of replicasets
+
+ kubectl get replicasets
+
+4 to get complete info about replicaset 
+
+kubectl describe replicasets httpd-rs
+
+5 to delete the replicaset 
+
+kubectl delete -f replica-set1.yml
+***********************************************************
+
+
+
+Create a nginx pod with 2 replicas in repica set called 
+ngix-rs, later sclae it 4 by editing the file. Scale down to 3
+
+with out editing the file.
+
+---
+apiVersion: apps/v1
+kind:  ReplicaSet
+metadata:
+ name: nginx-rs
+ labels:
+  author: satish
+  type: proxy
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   type: proxy
+template:
+ metadata:
+  name: nginx-pod
+  labels:
+   type: proxy
+ spec:
+  replicas: 4
+  selector:
+   matchLabels:
+    type: porxy
+ template:
+  metadata:
+   name: ngix-pod
+   labels: proxy
+ spec:
+  containers:
+   - name nginx-cntainer
+
+
+**********************************************************
+
+  3 To see the list of replicasets 
+
+
+
+
+
+***********************
+
+
+pycham download
+
+1 
+
+2 Download kubernetes openshift resource plugin
+
+https://pugins.jetbrainscm/plugin/9354-kuberenet
+
+*********************************************************************************************************8
+
+
+
+This is voting application  created using python jango framework.
+
+
+The vot that is casted here will be stored in tempory inmemory database created using redis
+
+from here data will be picked up by worker application that is created using .net.
+
+this .net application prcces the data and stored inpersisentcne database created using postgres 
+
+from here the reslutes can be seen throgh a node.js baesd application 
+vi voting-app-pod.yml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: voting-app-pod
+ labels:
+  name: voting-app-pod
+  app: demo-voting-app
+spec:
+ 
+ containers:
+  - name: voting-app
+   image: dockersamples/examplevoting_app_vote
+   ports:
+    - containerPort: 80
+
+
+
+
+***
+vi work-app-pod.yml
+
+appiVersion: v1
+kind: Pod
+metadata:
+ name: worker-app-pod
+ labels:
+   name: worker-app-pod
+   app: demo-voting-app
+spec:
+ container:
+  - name: worker-app
+ image: dockersampes/examplevotingapp_worker
+*********************************
+vi resut-app.pod.yml
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: result-app-pod
+  lables:
+   name: result-app-pod
+   app: demo-voting-app
+spec:
+  container:
+    - name: resut-app
+      image: dckersampes/
+      Ports:
+       -containerPort: 80
+
+
+*************************************************
+vi redis-pod.yml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod
+  labels:
+    name: redis-pod
+    app: demo-voting-app
+spec:
+  containers:
+    - name: redis
+      image: redis
+      ports:
+        - containerPort: 6379
+
+*************************************
+vi postgres-pod.yml
+
+---
+apiVersion: v1
+kind:Pod
+metadata:
+  name: postgres-pod
+  labels:
+    name: postgres-pod
+    app: demo-voting-app
+spec:
+  containers:
+    - name: postgres:
+      image: postgres:9.4
+      ports:
+        -containerPort:5432
+****************************************
+
+vi redis-service.yml
+
+---
+apiVersin: v1
+kind: Service
+metadata:
+  name:  redis-service
+  labels:
+  name: redis-service
+  app: demo-voting-app
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+ selector:
+   name: redis-pod
+   app: demo-vting-app
+
+****************************************************
+vi pstgres-pod.yml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+     name: psotgres-service
+     app: dem-vting-app
+spec:
+  ports:
+   - port: 5432
+     targetPort: 5432
+  selector
+    name: postgres-pod
+    app: demo-voting-app
+**************************************************
+vi voting-app-serviceym
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting-app-service
+  labels:
+    name: voting-app-service
+    app: demo-voting-app
+spec:
+  type: LoadBlancer
+  ports:
+   - port: 80
+targetPrt:  80
+*************************************
+
+Vi resut-app-service.yml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: resut-app-service
+   labels:
+      name: result-app-service
+      app: demo-voting-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+     targetPort: 80
+selector:
+  name: resut-app-pod
+  app: dem-voting-app
+
+********************************************************
+
+
+1 Open the Kubernetes folder that we used in pycharm 
+
+2 opn gitbash here
+
+3 Initilise a git repo
+  git init 
+
+4 send these files into stagging are and local repsitor
+  git add .
+  git commit -m "a"
+
+5 Create a new repsitry in github and push them 
+
+6 Open google cloud console and clone the repository
+  git cne url_of_kubernets_projects-repository
+
+7 Move into the the clones repository
+cd cloned_rep_name
+
+8 Deploy the pod and service 
+
+kubectl create -f voting-app-pod.yml
+kubectl create -f voting-app-service.ym
+kubect
+
+
+
+
+to deploy application in docker swarm ..
+
+Vi voting-app-stack.yml
+
+---
+version: '3'
+services:
+ voting-app:
+  image: dockersamples/examplevtingapp_vote
+  ports:
+   - 5050:80
+ redis:
+  images: redis
+  ports:
+   - 6060:6379
+ worker:
+  image: dockersamples/examplevtingapp_worker
+
+mydb:
+ images: postgres
+ ports:
+  -7070:5432
+ environment:
+POSTGRES_PASSWORD: SATISH
+resut-app:
+ image: dockersamples/examplevotingapp_result
+ ports:
+  - 8080:80  
+
+
+**********************************
+
+Name spaces in kubernetes
+
+Name space is logic partion created in kubernetes culster The Main advantage f Name spaces is we can deploy difent pods  in
+
+
+so that applications in one name space can't communicate  with 
+
+******************************
+Vi namespace.yml
+
+---
+apiVersin: v1
+kind: Namespace
+metadata:
+ name: test-ns
+
+***************
+vi pod-defintion6.yml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: jenkins-pod
+ namespace: test-ns
+ labels:
+  author: satish
+spec:
+ containers:
+  - name: jenkins
+    image: jenkins
+    ports:
+     - containerPort: 8080
+       hostPort:9090
+
+
+*************************
+
+kubernets scerts : this is using for passing  encrted data to the defination file and 
+ this can't be accesed by every one scertes is an object 
+
+
+vi secret1.yml
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+ name: my-secret
+ type: Opaque
+ stringData:
+   password: satish
+
+
+
+*******************
+
+vi pd-definition7.yml
+
+---
+apiVersin: v1
+kind: Pod
+metadata:
+ name: mysql-pod
+ labels:
+  author: satish
+spec:
+ containers:
+   - name: mydb
+     image: mysql:5
+     env:
+      - name:
+        value
+  
+
+
+1 To create the secrets 
+ kubectl create -f secret1.yml
+
+2 To create pds that access thse secrets 
+ kubectl create -f pod-definition7.yml
+
